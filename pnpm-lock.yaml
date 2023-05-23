@@ -4,6 +4,9 @@ dependencies:
   '@babel/preset-typescript':
     specifier: ^7.21.5
     version: 7.21.5(@babel/core@7.21.8)
+  axe-core:
+    specifier: ^4.7.1
+    version: 4.7.1
   baseui:
     specifier: ^12.2.0
     version: 12.2.0(@types/react@18.2.6)(react-dom@18.2.0)(react@18.2.0)(styletron-react@6.1.0)
@@ -1313,6 +1316,11 @@ packages:
     engines: {node: '>=4'}
     dependencies:
       core-js: 2.6.12
+    dev: false
+
+  /axe-core@4.7.1:
+    resolution: {integrity: sha512-sCXXUhA+cljomZ3ZAwb8i1p3oOlkABzPy08ZDAoGcYuvtBPlQ1Ytde129ArXyHWDhfeewq7rlx9F+cUx2SSlkg==}
+    engines: {node: '>=4'}
     dev: false
 
   /axios@0.26.1:

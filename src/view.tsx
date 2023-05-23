@@ -1,218 +1,150 @@
 import { useView, Compiler, Error } from "react-view";
 import { useState, useEffect } from "react";
-import { styled } from "baseui";
 import presetTypescript from "@babel/preset-typescript";
 import Editor from "./editor";
 
-const TYPE = {};
+import * as rootDefault from "baseui";
+import * as a11yDefault from "baseui/a11y";
+import * as buttonGroupDefault from "baseui/button-group";
+import * as headerNavigationDefault from "baseui/header-navigation";
+import * as phoneInputDefault from "baseui/phone-input";
+import * as spinnerDefault from "baseui/spinner";
+import * as accordionDefault from "baseui/accordion";
+import * as buttonTimedDefault from "baseui/button-timed";
+import * as headingDefault from "baseui/heading";
+import * as mapMarkerDefault from "baseui/map-marker";
+import * as pinCodeDefault from "baseui/pin-code";
+import * as appNavBarDefault from "baseui/app-nav-bar";
+import * as cardDefault from "baseui/card";
+import * as helperDefault from "baseui/helper";
+import * as menuDefault from "baseui/menu";
+import * as popoverDefault from "baseui/popover";
+import * as stylesDefault from "baseui/styles";
+import * as themesDefault from "baseui/themes";
+import * as aspectRatioBoxDefault from "baseui/aspect-ratio-box";
+import * as checkboxDefault from "baseui/checkbox";
+import * as messageCardDefault from "baseui/message-card";
+import * as progressBarDefault from "baseui/progress-bar";
+import * as timepickerDefault from "baseui/timepicker";
+import * as avatarDefault from "baseui/avatar";
+import * as comboboxDefault from "baseui/combobox";
+import * as iconDefault from "baseui/icon";
+import * as progressStepsDefault from "baseui/progress-steps";
+import * as tableDefault from "baseui/table";
+import * as tableGridDefault from "baseui/table-grid";
+import * as toastDefault from "baseui/toast";
+import * as badgeDefault from "baseui/badge";
+import * as dataTableDefault from "baseui/data-table";
+import * as modalDefault from "baseui/modal";
+import * as ratingDefault from "baseui/rating";
+import * as tableSemanticDefault from "baseui/table-semantic";
+import * as tokensDefault from "baseui/tokens";
+import * as blockDefault from "baseui/block";
+import * as dividerDefault from "baseui/divider";
+import * as inputDefault from "baseui/input";
+import * as notificationDefault from "baseui/notification";
+import * as selectDefault from "baseui/select";
+import * as tabsDefault from "baseui/tabs";
+import * as tooltipDefault from "baseui/tooltip";
+import * as dndListDefault from "baseui/dnd-list";
+import * as layerDefault from "baseui/layer";
+import * as tabsMotionDefault from "baseui/tabs-motion";
+import * as treeViewDefault from "baseui/tree-view";
+import * as breadcrumbsDefault from "baseui/breadcrumbs";
+import * as drawerDefault from "baseui/drawer";
+import * as sideNavigationDefault from "baseui/side-navigation";
+import * as tagDefault from "baseui/tag";
+import * as buttonDefault from "baseui/button";
+import * as fileUploaderDefault from "baseui/file-uploader";
+import * as layoutGridDefault from "baseui/layout-grid";
+import * as skeletonDefault from "baseui/skeleton";
+import * as typographyDefault from "baseui/typography";
+import * as flexGridDefault from "baseui/flex-grid";
+import * as linkDefault from "baseui/link";
+import * as paginationDefault from "baseui/pagination";
+import * as sliderDefault from "baseui/slider";
+import * as formControlDefault from "baseui/form-control";
+import * as listDefault from "baseui/list";
+import * as paymentCardDefault from "baseui/payment-card";
+import * as snackbarDefault from "baseui/snackbar";
+import * as textareaDefault from "baseui/textarea";
 
-import { Accordion, Panel } from "baseui/accordion";
-import { AppNavBar, setItemActive } from "baseui/app-nav-bar";
-import { Avatar } from "baseui/avatar";
-import { Badge, HIERARCHY, SHAPE, COLOR, PLACEMENT } from "baseui/badge";
-import { Banner, ACTION_POSITION, ARTWORK_TYPE } from "baseui/banner";
-import { Breadcrumbs } from "baseui/breadcrumbs";
-import { ButtonGroup, MODE } from "baseui/button-group";
-import { ButtonTimed } from "baseui/button-timed";
-import { Button, KIND, SIZE } from "baseui/button";
-import { Card, StyledBody, StyledAction } from "baseui/card";
-import { Checkbox, STYLE_TYPE, LABEL_PLACEMENT } from "baseui/checkbox";
-import { Combobox } from "baseui/combobox";
-import { DatePicker } from "baseui/datepicker";
-import { StyledDivider } from "baseui/divider";
-import { List, arrayMove, arrayRemove } from "baseui/dnd-list";
-import { Drawer, ANCHOR } from "baseui/drawer";
-import { FileUploader } from "baseui/file-uploader";
-import {
-  FixedMarker,
-  PINHEAD_SIZES_SHAPES,
-  NEEDLE_SIZES,
-  BADGE_ENHANCER_SIZES,
-  LABEL_ENHANCER_POSITIONS,
-} from "baseui/map-marker";
-import { FormControl } from "baseui/form-control";
-import {
-  HeaderNavigation,
-  StyledNavigationItem,
-  StyledNavigationList,
-} from "baseui/header-navigation";
-import { HintDot } from "baseui/badge";
-import { ArrowUp } from "baseui/icon";
-import { Input, ADJOINED } from "baseui/input";
-import { StyledLink } from "baseui/link";
-import { ListHeading } from "baseui/list";
-import { ListItem, ListItemLabel, ARTWORK_SIZES } from "baseui/list";
-import { StatefulMenu } from "baseui/menu";
-import {
-  MessageCard,
-  BACKGROUND_COLOR_TYPE,
-  IMAGE_LAYOUT,
-} from "baseui/message-card";
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalButton,
-  ROLE,
-} from "baseui/modal";
-import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
-import { Block } from "baseui/block";
-import { NotificationCircle } from "baseui/badge";
-import { Skeleton } from "baseui/skeleton";
-import { Notification } from "baseui/notification";
-import { Pagination } from "baseui/pagination";
-import { PaymentCard } from "baseui/payment-card";
-import { PhoneInput, COUNTRIES } from "baseui/phone-input";
-import { TableBuilder } from "baseui/table-semantic";
-import {
-  Table,
-  StyledTable,
-  StyledHead,
-  StyledHeadCell,
-  StyledRow,
-  StyledCell,
-} from "baseui/table";
-import { PinCode } from "baseui/pin-code";
-import { StatefulPopover } from "baseui/popover";
-import { ProgressBar } from "baseui/progress-bar";
-import { ProgressSteps, NumberedStep, Step } from "baseui/progress-steps";
-import { Radio, RadioGroup, ALIGN } from "baseui/radio";
-import { StarRating } from "baseui/rating";
-import { Select } from "baseui/select";
-import { Navigation } from "baseui/side-navigation";
-import { Slider } from "baseui/slider";
-import { Spinner } from "baseui/spinner";
-import { Tabs, Tab, ORIENTATION, FILL } from "baseui/tabs-motion";
-import { Tag, VARIANT } from "baseui/tag";
-import { TimePicker } from "baseui/timepicker";
-import { TimezonePicker } from "baseui/timezonepicker";
-import { toaster, ToasterContainer } from "baseui/toast";
-import {
-  StatefulTooltip,
-  ACCESSIBILITY_TYPE,
-  TRIGGER_TYPE,
-} from "baseui/tooltip";
-import { TreeView, toggleIsExpanded } from "baseui/tree-view";
+const scope = {
+  useEffect,
+  useState,
+  ...rootDefault,
+  ...a11yDefault,
+  ...buttonGroupDefault,
+  ...headerNavigationDefault,
+  ...phoneInputDefault,
+  ...spinnerDefault,
+  ...accordionDefault,
+  ...buttonTimedDefault,
+  ...headingDefault,
+  ...mapMarkerDefault,
+  ...pinCodeDefault,
+  ...appNavBarDefault,
+  ...cardDefault,
+  ...helperDefault,
+  ...menuDefault,
+  ...popoverDefault,
+  ...stylesDefault,
+  ...themesDefault,
+  ...aspectRatioBoxDefault,
+  ...checkboxDefault,
+  ...messageCardDefault,
+  ...progressBarDefault,
+  ...timepickerDefault,
+  ...avatarDefault,
+  ...comboboxDefault,
+  ...iconDefault,
+  ...progressStepsDefault,
+  ...tableDefault,
+  ...tableGridDefault,
+  ...toastDefault,
+  ...badgeDefault,
+  ...dataTableDefault,
+  ...modalDefault,
+  ...ratingDefault,
+  ...tableSemanticDefault,
+  ...tokensDefault,
+  ...blockDefault,
+  ...dividerDefault,
+  ...inputDefault,
+  ...notificationDefault,
+  ...selectDefault,
+  ...tabsDefault,
+  ...tooltipDefault,
+  ...dndListDefault,
+  ...layerDefault,
+  ...tabsMotionDefault,
+  ...treeViewDefault,
+  ...breadcrumbsDefault,
+  ...drawerDefault,
+  ...sideNavigationDefault,
+  ...tagDefault,
+  ...buttonDefault,
+  ...fileUploaderDefault,
+  ...layoutGridDefault,
+  ...skeletonDefault,
+  ...typographyDefault,
+  ...flexGridDefault,
+  ...linkDefault,
+  ...paginationDefault,
+  ...sliderDefault,
+  ...formControlDefault,
+  ...listDefault,
+  ...paymentCardDefault,
+  ...snackbarDefault,
+  ...textareaDefault,
+};
+
+console.log(scope);
 
 function View({ initialCode }) {
   const params = useView({
     initialCode,
-    scope: {
-      FlexGrid,
-      FlexGridItem,
-      Block,
-      useEffect,
-      useState,
-      styled,
-      Accordion,
-      Panel,
-      AppNavBar,
-      setItemActive,
-      Avatar,
-      Badge,
-      HIERARCHY,
-      SHAPE,
-      COLOR,
-      PLACEMENT,
-      Banner,
-      ACTION_POSITION,
-      ARTWORK_TYPE,
-      Breadcrumbs,
-      ButtonGroup,
-      MODE,
-      ButtonTimed,
-      Button,
-      KIND,
-      SIZE,
-      Card,
-      StyledBody,
-      StyledAction,
-      Checkbox,
-      STYLE_TYPE,
-      LABEL_PLACEMENT,
-      Combobox,
-      DatePicker,
-      StyledDivider,
-      List,
-      arrayMove,
-      arrayRemove,
-      Drawer,
-      ANCHOR,
-      FileUploader,
-      FixedMarker,
-      PINHEAD_SIZES_SHAPES,
-      NEEDLE_SIZES,
-      BADGE_ENHANCER_SIZES,
-      LABEL_ENHANCER_POSITIONS,
-      FormControl,
-      HeaderNavigation,
-      StyledNavigationItem,
-      StyledNavigationList,
-      Table,
-      StyledTable,
-      StyledHead,
-      StyledHeadCell,
-      StyledRow,
-      StyledCell,
-      HintDot,
-      ArrowUp,
-      Input,
-      ADJOINED,
-      StyledLink,
-      ListHeading,
-      ListItem,
-      ListItemLabel,
-      ARTWORK_SIZES,
-      StatefulMenu,
-      MessageCard,
-      BACKGROUND_COLOR_TYPE,
-      IMAGE_LAYOUT,
-      TYPE,
-      Modal,
-      ModalHeader,
-      ModalBody,
-      ModalFooter,
-      ModalButton,
-      ROLE,
-      NotificationCircle,
-      Skeleton,
-      Notification,
-      Pagination,
-      PaymentCard,
-      PhoneInput,
-      COUNTRIES,
-      PinCode,
-      StatefulPopover,
-      ProgressBar,
-      ProgressSteps,
-      NumberedStep,
-      Step,
-      Radio,
-      RadioGroup,
-      ALIGN,
-      StarRating,
-      Select,
-      Navigation,
-      Slider,
-      TableBuilder,
-      Spinner,
-      Tabs,
-      Tab,
-      ORIENTATION,
-      FILL,
-      Tag,
-      VARIANT,
-      TimePicker,
-      TimezonePicker,
-      toaster,
-      ToasterContainer,
-      StatefulTooltip,
-      ACCESSIBILITY_TYPE,
-      TRIGGER_TYPE,
-      TreeView,
-      toggleIsExpanded,
-    },
+    scope,
   });
   return (
     <div

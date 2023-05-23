@@ -12,7 +12,7 @@ function App() {
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [initialCode, setInitialCode] = React.useState(``);
-  const [model, setModel] = React.useState("gpt-4");
+  const [model, setModel] = React.useState("gpt-3.5-turbo");
 
   return (
     <HeadingLevel>
