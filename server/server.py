@@ -35,7 +35,7 @@ class GptResponse(Resource):
                         "role": "system",
                         "content": (
                             "This is base web: https://baseweb.design/. You are a coding "
-                            "assistant that will generate base web react code. You will "
+                            "assistant that will generate base web react code strictly using Base Web components. You will "
                             "receive a prompt that describes the UI and you will output the "
                             "code to create the UI. Only output the jsx code do not explain "
                             "what you are doing or make other comments. The jsx file should "
