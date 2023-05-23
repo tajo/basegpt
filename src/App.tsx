@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Textarea } from "baseui/textarea";
 import { Button, SIZE } from "baseui/button";
+import { RadioGroup, Radio, ALIGN } from "baseui/radio";
 import { Spinner } from "baseui/spinner";
 import { Heading, HeadingLevel } from "baseui/heading";
 import View from "./view";
@@ -11,6 +12,7 @@ function App() {
   const [loading, setLoading] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [initialCode, setInitialCode] = React.useState(``);
+  const [model, setModel] = React.useState("gpt-4");
 
   return (
     <HeadingLevel>
@@ -30,37 +32,55 @@ function App() {
           },
         }}
       />
-      <Button
-        onClick={() => {
-          setLoading(true);
-          fetch("http://localhost:5000", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ prompt: value }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              console.log("Success:", data);
-              setInitialCode(data.response);
-              setLoading(false);
+      <div style={{ display: "flex" }}>
+        <Button
+          onClick={() => {
+            setLoading(true);
+            fetch("http://localhost:5000", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ prompt: value, model }),
             })
-            .catch((error) => {
-              console.error("Error:", error);
-              setLoading(false);
-            });
-        }}
-        size={SIZE.mini}
-        overrides={{
-          BaseButton: {
-            style: () => ({ marginTop: "0.5rem" }),
-          },
-        }}
-      >
-        Generate response
-      </Button>
-      {initialCode === "" && !loading ? null : loading ? (
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Success:", data);
+                setInitialCode(data.response);
+                setLoading(false);
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+                setLoading(false);
+              });
+          }}
+          size={SIZE.mini}
+          overrides={{
+            BaseButton: {
+              style: () => ({ marginTop: "0.5rem" }),
+            },
+          }}
+        >
+          Generate response
+        </Button>
+        <div style={{ paddingTop: 6, marginLeft: "1rem" }}>
+          <RadioGroup
+            value={model}
+            onChange={(e) => setModel(e.currentTarget.value)}
+            name="model"
+            align={ALIGN.horizontal}
+          >
+            <Radio value="gpt-4">GPT4</Radio>
+            <Radio value="gpt-3.5-turbo" checked>
+              GPT3.5
+            </Radio>
+          </RadioGroup>
+        </div>
+      </div>
+
+      {initialCode === "" && !loading ? (
+        <span />
+      ) : loading ? (
         <div style={{ width: "120px", margin: "0px auto", paddingTop: "1rem" }}>
           <Spinner $size={SIZE.large} />
         </div>

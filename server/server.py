@@ -21,6 +21,7 @@ class GptResponse(Resource):
         # Get the prompt from the POST request data
         data = request.get_json()
         prompt = data.get('prompt')
+        model = data.get('model')
 
         # Check if the prompt is missing in the request
         if not prompt:
@@ -29,13 +30,13 @@ class GptResponse(Resource):
         # Use the OpenAI API to get a response from GPT-4
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model=model,
                 messages=[
                     {
                         "role": "system",
                         "content": (
                             "This is base web: https://baseweb.design/. You are a coding "
-                            "assistant that will generate base web react code strictly using Base Web components. You will "
+                            "assistant that will generate base web react code using eixsting Base Web components. You will "
                             "receive a prompt that describes the UI and you will output the "
                             "code to create the UI. Only output the jsx code do not explain "
                             "what you are doing or make other comments. The jsx file should "

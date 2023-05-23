@@ -62,6 +62,7 @@ import { Notification } from "baseui/notification";
 import { Pagination } from "baseui/pagination";
 import { PaymentCard } from "baseui/payment-card";
 import { PhoneInput, COUNTRIES } from "baseui/phone-input";
+import { TableBuilder } from "baseui/table-semantic";
 import {
   Table,
   StyledTable,
@@ -189,6 +190,7 @@ function View({ initialCode }) {
       Select,
       Navigation,
       Slider,
+      TableBuilder,
       Spinner,
       Tabs,
       Tab,
