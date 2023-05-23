@@ -29,7 +29,7 @@ class GptResponse(Resource):
         # Use the OpenAI API to get a response from GPT-4
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4",
+                model="gpt-3.5-turbo",
                 messages=[
                     {
                         "role": "system",
@@ -39,7 +39,9 @@ class GptResponse(Resource):
                             "receive a prompt that describes the UI and you will output the "
                             "code to create the UI. Only output the jsx code do not explain "
                             "what you are doing or make other comments. The jsx file should "
-                            "export a single function"
+                            "export a single function as the default export. All the varibles "
+                            " should be defined in the scope of that function. Prefer not use "
+                            "Stateful components."
                         ),
                     },
                     {"role": "user", "content": prompt}
