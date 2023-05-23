@@ -62,6 +62,14 @@ import { Notification } from "baseui/notification";
 import { Pagination } from "baseui/pagination";
 import { PaymentCard } from "baseui/payment-card";
 import { PhoneInput, COUNTRIES } from "baseui/phone-input";
+import {
+  Table,
+  StyledTable,
+  StyledHead,
+  StyledHeadCell,
+  StyledRow,
+  StyledCell,
+} from "baseui/table";
 import { PinCode } from "baseui/pin-code";
 import { StatefulPopover } from "baseui/popover";
 import { ProgressBar } from "baseui/progress-bar";
@@ -135,6 +143,12 @@ function View({ initialCode }) {
       HeaderNavigation,
       StyledNavigationItem,
       StyledNavigationList,
+      Table,
+      StyledTable,
+      StyledHead,
+      StyledHeadCell,
+      StyledRow,
+      StyledCell,
       HintDot,
       ArrowUp,
       Input,
