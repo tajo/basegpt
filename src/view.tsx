@@ -56,6 +56,8 @@ import {
   ModalButton,
   ROLE,
 } from "baseui/modal";
+import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
+import { Block } from "baseui/block";
 import { NotificationCircle } from "baseui/badge";
 import { Skeleton } from "baseui/skeleton";
 import { Notification } from "baseui/notification";
@@ -97,6 +99,9 @@ function View({ initialCode }) {
   const params = useView({
     initialCode,
     scope: {
+      FlexGrid,
+      FlexGridItem,
+      Block,
       useEffect,
       useState,
       styled,
