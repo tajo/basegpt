@@ -9,27 +9,8 @@ import "./App.css";
 
 function App() {
   const [loading, setLoading] = React.useState(false);
-  const [value, setValue] = React.useState(
-    "Use BaseWeb to implement a slider that has marks and 20 steps."
-  );
-  const [initialCode, setInitialCode] =
-    React.useState(`import { Slider } from 'baseui/slider';
-
-  export default () => {
-    const [value, setValue] = React.useState([10]);
-    return (
-      <Slider
-        value={value}
-        onChange={({ value }) => setValue(value)}
-        onFinalChange={({ value }) => console.log(value)}
-        min={0}
-        max={20}
-        step={1}
-        marks={Array.from({length: 21}, (_, i) => i)}
-      />
-    );
-  }
-  `);
+  const [value, setValue] = React.useState("");
+  const [initialCode, setInitialCode] = React.useState(``);
 
   return (
     <HeadingLevel>
@@ -79,7 +60,7 @@ function App() {
       >
         Generate response
       </Button>
-      {loading ? (
+      {initialCode === "" && !loading ? null : loading ? (
         <div style={{ width: "120px", margin: "0px auto", paddingTop: "1rem" }}>
           <Spinner $size={SIZE.large} />
         </div>

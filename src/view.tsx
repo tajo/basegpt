@@ -1,4 +1,6 @@
 import { useView, Compiler, Error } from "react-view";
+import { useState, useEffect } from "react";
+import { styled } from "baseui";
 import presetTypescript from "@babel/preset-typescript";
 import Editor from "./editor";
 
@@ -86,6 +88,9 @@ function View({ initialCode }) {
   const params = useView({
     initialCode,
     scope: {
+      useEffect,
+      useState,
+      styled,
       Accordion,
       Panel,
       AppNavBar,
