@@ -1,5 +1,6 @@
 import { useView, Compiler, Error } from "react-view";
 import { useState, useEffect } from "react";
+// @ts-expect-error no type
 import presetTypescript from "@babel/preset-typescript";
 import Editor from "./editor";
 
@@ -139,8 +140,9 @@ const scope = {
   ...textareaDefault,
 };
 
-console.log(scope);
+// console.log(scope);
 
+// @ts-expect-error no type
 function View({ initialCode }) {
   const params = useView({
     initialCode,

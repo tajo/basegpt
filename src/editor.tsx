@@ -50,12 +50,20 @@ const highlightCode = (
   </Highlight>
 );
 
-const Editor: React.FC<TEditorProps> = ({
+type AdditionalProps = {
+  editorProps?: {
+    disabled: boolean;
+    readOnly: boolean;
+  }
+};
+
+const Editor: React.FC<TEditorProps & AdditionalProps> = ({
   code: globalCode,
   transformToken,
   onChange,
   placeholder,
   small,
+  editorProps
 }) => {
   const [css, theme] = useStyletron();
   const [focused, setFocused] = React.useState(false);
@@ -130,6 +138,8 @@ const Editor: React.FC<TEditorProps> = ({
         onBlur={() => setFocused(false)}
         padding={small ? 4 : 12}
         style={editorTheme.plain as React.CSSProperties}
+        disabled={editorProps?.disabled}
+        readOnly={editorProps?.readOnly}
       />
     </div>
   );
