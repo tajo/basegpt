@@ -14,12 +14,12 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 6
+          version: 7
           run_install: true
 
       - name: Build 🛠
         run: pnpm run build
-      
+
       - name: Upload Artifacts 🔺
         uses: actions/upload-artifact@v1
         with:
