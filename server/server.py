@@ -29,7 +29,7 @@ SYSTEM_MESSAGE = {
 
 # Global history variable
 conversation_history = []
-history_length = 15
+history_length = 21
 
 class GptResponse(Resource):
     def post(self):
