@@ -137,6 +137,8 @@ function App() {
               onChange={(e) => {
                 localStorage.setItem("openai_api_key", e.target.value);
                 setApikey(e.target.value);
+                // openai-stream-hooks doesn't update key without relaoding?
+                window.location.reload();
               }}
               size={SIZE.mini}
               type="password"
