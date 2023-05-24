@@ -1,7 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import path from "path";
 import { builtinModules, createRequire } from "node:module";
 import nodeLibsBrowser from "node-libs-browser";
+import * as url from "url";
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const require = createRequire(import.meta.url);
 
@@ -42,14 +46,11 @@ function NodeBuiltinsPolyfillPlugin() {
                 name: "vite-plugin-node-polyfills-shims-resolver",
                 setup(build) {
                   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
-                  const escapedGlobalShimsPath =
-                    globalShimsPath.replace(
-                      /[.*+?^${}()|[\]\\]/g,
-                      "\\$&"
-                    );
-                  const filter = new RegExp(
-                    `^${escapedGlobalShimsPath}$`
+                  const escapedGlobalShimsPath = globalShimsPath.replace(
+                    /[.*+?^${}()|[\]\\]/g,
+                    "\\$&"
                   );
+                  const filter = new RegExp(`^${escapedGlobalShimsPath}$`);
 
                   // this prevents following esbuild error
                   // ✘ [ERROR] The injected path ".../shims/browser-node-globals-shim.js" cannot be marked as external
@@ -76,6 +77,15 @@ function NodeBuiltinsPolyfillPlugin() {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), NodeBuiltinsPolyfillPlugin()],
+  resolve: {
+    alias: {
+      chalk: path.join(__dirname, "empty.js"),
+    },
+  },
+  build: {
+    minify: false,
+    sourcemap: true,
+  },
   // define: {
   //   "process.env": {},
   //   Buffer: {},

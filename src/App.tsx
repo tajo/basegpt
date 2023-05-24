@@ -9,6 +9,7 @@ import { useChatCompletion } from "openai-streaming-hooks";
 // @ts-expect-error type issues with package version
 import type { Model } from "openai-streaming-hooks/src/types";
 import Editor from "./editor";
+import Logo from "./logo";
 
 import View from "./view";
 
@@ -22,14 +23,13 @@ const models: Model[] = ["gpt-4", "gpt-3.5-turbo"];
 function App() {
   const [streaming, setStreaming] = React.useState(false);
   const [inputText, setInputText] = React.useState("");
+  const [promptHistory, setPromptHistory] = React.useState([]);
   const [initialCode, setInitialCode] = React.useState(``);
   const [streamingCode, setStreamingCode] = React.useState(``);
   const [model, setModel] = React.useState(models[0]);
   const [apikey, setApikey] = React.useState(
     localStorage.getItem("openai_api_key")
   );
-
-  console.log("apikey", apikey);
 
   const [messages, submitPrompt] = useChatCompletion({
     model,
@@ -56,8 +56,8 @@ function App() {
   return (
     <React.StrictMode>
       <HeadingLevel>
-        <Heading styleLevel={5} $style={{ marginTop: 0 }}>
-          BaseGPT
+        <Heading styleLevel={3} $style={{ marginTop: 0 }}>
+          <Logo />
         </Heading>
         <Textarea
           value={inputText}
@@ -82,8 +82,16 @@ function App() {
                 return;
               }
               setStreaming(true);
+              let prompts = promptHistory;
+              if (prompts.length > 20) {
+                prompts.shift();
+              }
+              prompts = prompts.concat({ content: inputText, role: "user" });
+              setPromptHistory(prompts);
+              console.log(prompts);
               submitPrompt([
-                { content: `${initialPrompt}${inputText}`, role: "user" },
+                { content: initialPrompt, role: "system" },
+                ...prompts,
               ]);
             }}
             size={SIZE.mini}
@@ -107,7 +115,7 @@ function App() {
               },
             }}
           >
-            Reset
+            Reset Context ({promptHistory.length})
           </Button>
           <div style={{ paddingTop: 6, marginLeft: "1rem" }}>
             <RadioGroup
