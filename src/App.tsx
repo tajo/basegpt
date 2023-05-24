@@ -7,7 +7,6 @@ import { Heading, HeadingLevel } from "baseui/heading";
 import { useChatCompletion } from 'openai-streaming-hooks';
 // @ts-expect-error type issues with package version
 import type { Model } from 'openai-streaming-hooks/src/types'
-// import { MessageStream } from './stream';
 import Editor from "./editor";
 
 import View from "./view";
