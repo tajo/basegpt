@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Textarea } from "baseui/textarea";
-import { Button, SIZE } from "baseui/button";
+import { Button, KIND, SIZE } from "baseui/button";
 import { RadioGroup, Radio, ALIGN } from "baseui/radio";
 import { Spinner } from "baseui/spinner";
 import { Heading, HeadingLevel } from "baseui/heading";
@@ -14,18 +14,17 @@ import View from "./view";
 
 import "./App.css";
 
-const initialPrompt = "This is base web: https://baseweb.design/. You are a coding assistant that will generate base web react code using existing Base Web components. You will receive a prompt that describes the UI and you will output the code to create the UI. Only output the jsx code; do not explain what you are doing or make other comments. The jsx file should export a single function as the default export. All the variables should be defined in the scope of that function. Prefer not to use Stateful components.";
+const initialPrompt = "This is base web: https://baseweb.design/. You are a coding assistant that will generate base web react code using existing Base Web components. You will receive a prompt that describes the UI and you will output the code to create the UI. Only output the jsx code; do not explain what you are doing or make other comments. The jsx file should export a single function as the default export. All the variables should be defined in the scope of that function. Here is your first prompt: ";
 
 const models: Model[] = ["gpt-4", "gpt-3.5-turbo"]
 
 function App() {
-  const [streaming, setStreaming] = React.useState(true);
+  const [streaming, setStreaming] = React.useState(false);
   const [inputText, setInputText] = React.useState("");
   const [initialCode, setInitialCode] = React.useState(``);
   const [streamingCode, setStreamingCode] = React.useState(``);
   const [model, setModel] = React.useState(models[0]);
 
-  // @ts-expect-error type issues with package version
   const [messages, submitPrompt] = useChatCompletion({
     model,
     apiKey: import.meta.env.VITE_OPENAI_API_KEY,
@@ -33,12 +32,6 @@ function App() {
   });
 
   React.useEffect(() => {
-    submitPrompt([{ content: initialPrompt, role: 'system' }])
-  }, []);
-
-  React.useEffect(() => {
-    // console.log(messages);
-
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
 
@@ -78,7 +71,7 @@ function App() {
             isLoading={loading}
             onClick={() => {
               setStreaming(true);
-              submitPrompt([{ content: inputText, role: 'user' }])
+              submitPrompt([{ content: `${initialPrompt}${inputText}`, role: 'user' }])
             }}
             size={SIZE.mini}
             overrides={{
@@ -87,40 +80,75 @@ function App() {
               },
             }}
           >
-            Generate response
+            Generate
+          </Button>
+          <Button
+            onClick={() => {
+              window.location.reload();
+            }}
+            size={SIZE.mini}
+            kind={KIND.secondary}
+            overrides={{
+              BaseButton: {
+                style: () => ({ marginTop: "0.5rem", marginLeft: "0.5rem" }),
+              },
+            }}
+          >
+            Reset
           </Button>
           <div style={{ paddingTop: 6, marginLeft: "1rem" }}>
             <RadioGroup
+              disabled={loading}
               value={model}
               onChange={(e) => setModel(e.currentTarget.value as Model)}
               name="model"
               align={ALIGN.horizontal}
             >
-              <Radio value={models[0]}>GPT4</Radio>
+              <Radio value={models[0]}>GPT-4</Radio>
               <Radio value={models[1]} checked>
-                GPT3.5
+                GPT-3.5
               </Radio>
             </RadioGroup>
           </div>
         </div>
-
-        {/* <MessageStream messages={messages} /> */}
-
         {streaming ? (
-          <div
-          style={{
-            flex: "1",
-            maxWidth: 515,
-            paddingRight: "1rem",
-            paddingTop: "2rem",
-            boxSizing: "border-box",
-          }}
-        >
-            <Editor code={streamingCode} onChange={() => {}} language="tsx" editorProps={{ disabled: true, readOnly: true }} />
+          <div style={{
+            display: "flex",
+            width: "100%"
+          }}>
+            <div
+              style={{
+                flex: "1",
+                maxWidth: 515,
+                paddingRight: "1rem",
+                paddingTop: "2rem",
+                boxSizing: "border-box",
+              }}
+            >
+              <Editor
+                code={streamingCode}
+                onChange={() => null}
+                language="tsx"
+                editorProps={{ disabled: true, readOnly: true }}
+              />
+            </div>
+            <div
+              style={{
+                flex: "1",
+                display: "flex",
+                alignItems: "center",
+                marginTop: "2rem",
+                justifyContent: "center",
+                paddingLeft: "1rem",
+                boxSizing: "border-box",
+              }}
+            >
+              <Spinner />
+            </div>
           </div>
-        ) : (
-          <View initialCode={initialCode} />
-        )}
+          ) : initialCode ? (
+            <View initialCode={initialCode} />
+          ) : null}
       </HeadingLevel>
     </React.StrictMode>
   );
